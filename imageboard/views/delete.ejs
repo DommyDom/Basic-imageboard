@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>delete <%=comment%></title>
+<%-include("bootstrap");%>
+</head>
+	<body>
+		<form method="post">
+			<label>Are you sure you want to delete post:<%=comment%></label>
+			<input type="submit" value="delete">
+		</form>
+		<br><a href="../">or go back to catalog</a><br>
+		<a href="javascript:history.back()">or go back to previous page</a>
+	</body>
+</html>

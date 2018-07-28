@@ -1,0 +1,12 @@
+.post{border-style:dotted; display:inline-block}
+.post p{text-align:center}
+.post h4{text-align:center}
+.post img{display: block; margin-left:auto; margin-right: auto; width: 250px}
+
+#op img{width:250px;height:auto}
+.comment{display:inline-block;border-style:dotted; padding-right:1%}
+.comment img{max-width:250px;height:auto}
+
+.container{margin:0px}
+
+.dead-link{text-decoration: line-through;}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>post</title>
+	<%- include("bootstrap"); %>
+	<link rel="stylesheet" href="../styles.css">
+	<script>
+			function showForm(){
+				document.getElementById("commentHolder").innerHTML= '<form id="comment" method="post" enctype="multipart/form-data">						<label>comment:</label>						<textarea name="commentMessage"></textarea><br>		 <input type="file" name="pic" accept="image/*">	<br>					<input type="submit">					</form>';
+				var buttonHolder = document.getElementById("buttonHolder");
+				buttonHolder.removeChild(buttonHolder.childNodes[1]);
+			}
+		</script>
+	
+	
+</head>
+<body>
+	<div class="container">
+		<div id="header"  class="row">
+				<div class="col-sm-12">
+					<h1>Basic board</h1><br>
+					<a href="/">catalog</a><%if(aut){%>/ <a href="/logout"> logout</a><%}%>
+				</div>
+		</div>
+			
+		<div id="navbar" class="row">
+				<div class="col-sm-12">
+					<div id="buttonHolder">
+					<button type="button" class="btn" onClick="showForm();">reply</button>
+					</div>
+					<div id="commentHolder"></div>
+				</div>
+		</div>
+		<%var days =["sun","mon","tue","wen","thu","fri","sat"];%>
+		<div id="<%=op.postID%>" class="row">
+			<div class="op col-sm-12">
+				<a  target="_blank" rel="noopener noreferrer" href="../upload/<%=op.image%>"><%=op.imageName%></a><br>
+				<img align="left" src="../upload/<%=op.image%>">
+				<h4><strong><%= op.title%></strong>  <%=op.postDate.getMonth() +1%>/<%=op.postDate.getDate()%>/<%=op.postDate.getFullYear()%>(<%=days[op.postDate.getDay()]%>)<%=op.postDate.getHours()%>:<%=op.postDate.getMinutes()%>:<%=op.postDate.getSeconds()%>   No.<%=op.postID%><%if(aut){%>/<a href="../deleteThread/<%=op.postID%>">delete</a>/<a href="../ipBan/<%=op.ip%>">Ban</a><%}%></h4>
+				<p><%var str = op.post.split("\n"); for(var i = 0; i<str.length;i++){
+					if(str[i].trim().startsWith(">")){%>
+						<span style="color:green"><%=str[i]%></span>
+					<%}else{%>
+						<%=str[i]%>
+						<%}%>
+						<br />
+					<%}%>
+					
+					</p>
+			</div> 
+		</div>
+		
+		<div id="commentSection" class="row">
+				<%for(var i=0;i<op.comments.length;i++){%>
+					<div  class="col-sm-12">
+						<div id="<%=op.comments[i].postID%>" class="comment">
+							<%if(aut){%><a href="../deleteComment/<%=op.postID%>/<%=op.comments[i].postID%>">delete</a>/<a href="../ipBan/<%=op.comments[i].ip%>">Ban</a><%}%>
+							<h5><%=op.comments[i].postDate.getMonth() +1%>/<%=op.comments[i].postDate.getDate()%>/<%=op.comments[i].postDate.getFullYear()%>(<%=days[op.comments[i].postDate.getDay()]%>)<%=op.comments[i].postDate.getHours()%>:<%=op.comments[i].postDate.getMinutes()%>:<%=op.postDate.getSeconds()%>   No.<%=op.comments[i].postID%></h5>
+							<%if(op.comments[i].image && op.comments[i].imageName){ %><a target="_blank" rel="noopener noreferrer" href="../upload/<%=op.comments[i].image%>"><%=op.comments[i].imageName%></a><br><img align="left" src="../upload/<%=op.comments[i].image%>"><%}%>
+							<p>
+								<%var str = op.comments[i].post.split("\n"); for(var j = 0; j<str.length;j++){
+							
+							if(str[j].trim().startsWith(">>")){
+							
+								
+								var refNumber = parseInt(str[j].substr(2));
+								if(Number.isInteger(refNumber)){
+									if(refNumber === op.postID){%>
+										<a href="#<%=refNumber%>">>><%=refNumber%>(OP)</a> <%=str[j].substr(refNumber.toString().length +2)%>
+									<%}else if(op.comments.slice(0,i-1).find(function(obj){return refNumber === obj.postID})){%>
+										<a href="#<%=refNumber%>"><%=str[j]%></a>
+									<%}else{%>
+										<a class="dead-link"><%=str[j]%></a>
+									<%}%>
+									
+								<%}else{%>
+									<%=str[j]%>
+								<%}%>
+								
+								
+							<%}else if(str[j].trim().startsWith(">")){%>
+								<span style="color:green"><%=str[j]%></span>
+							<%}else{%>
+								<%=str[j]%>
+								<%}%>
+								<br />
+							<%}%>
+							</p>
+							</div>
+					</div>
+				<%}%>
+		</div>
+				
+		
+		<div  class="row">
+				<div class="col-sm-12">
+					<p>Board made by Dommy</p>
+				</div>
+			</div>	
+			
+	</div>
+</body>
+</html>

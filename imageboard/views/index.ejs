@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<title>asdasdasd</title>
+		
+		<%- include("bootstrap"); %>
+		<link rel="stylesheet" href="styles.css">
+		<script>
+			function showForm(){
+				document.getElementById("breadHolder").innerHTML= '<form id="bread" method="post" enctype="multipart/form-data">						<label>title:</label>						<input name="breadTitle" type="text"><br>						<label>message:</label>						<textarea name="breadMessage"></textarea><br>		 <input type="file" name="pic" accept="image/*">	<br>					<input type="submit">					</form>';
+				var buttonHolder = document.getElementById("buttonHolder");
+				buttonHolder.removeChild(buttonHolder.childNodes[1]);
+			}
+		</script>
+		
+	</head>
+	<body>
+		<div class="container">
+			<div id="header"  class="row">
+				<div class="col-sm-12">
+					<h1>Basic board</h1><br>
+					<a href="/">catalog</a><%if(aut){%>/ <a href="/logout"> logout</a><%}%>
+				</div>
+			</div>
+			
+			<div id="navbar" class="row">
+				<div class="col-sm-12">
+					<div id="buttonHolder">
+					<button type="button" class="btn" onClick="showForm();">make new bread</button>
+					</div>
+					<div id="breadHolder"></div>
+				</div>
+			</div>
+			
+			<%var days =["sun","mon","tue","wen","thu","fri","sat"];%>
+			<%function compareBump(a,b){
+				if(a.bumpOrder>b.bumpOrder){
+					return 1;
+				}else if(a.bumpOrder<b.bumpOrder){
+					return -1;
+				}
+				return 0;
+			}%>
+			<%posts.sort(compareBump); posts.reverse();%>
+			<div id="main" class="row">
+				<%for(var i =0; i<posts.length;i++){%>
+				<div class="col-sm-4">
+					<div class="post">
+						<img src="upload/<%= posts[i].image %>">
+						<%if(aut){%><a href="/deleteThread/<%=posts[i].postID%>">delete</a>/<a href="/ipBan/<%=posts[i].ip%>">Ban</a><%}%>
+						<h4><strong><%= posts[i].title%></strong>  <%=posts[i].postDate.getMonth() +1%>/<%=posts[i].postDate.getDate()%>/<%=posts[i].postDate.getFullYear()%>(<%=days[posts[i].postDate.getDay()]%>)<%=posts[i].postDate.getHours()%>:<%=posts[i].postDate.getMinutes()%>:<%=posts[i].postDate.getSeconds()%>   No.<%=posts[i].postID%></h4>
+						
+						<p>R:<%=posts[i].comments.length%>/I:<%=posts[i].commentImages%><br><%= posts[i].post%></p><br>
+						<a href="post/<%=posts[i].postID%>">view comments</a>
+					</div>
+				</div>
+				<%}%>
+					
+				</div>
+				
+			
+			
+			<div  class="row">
+				<div class="col-sm-12">
+					<p>Board made by Dommy</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
