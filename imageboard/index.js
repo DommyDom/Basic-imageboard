@@ -29,11 +29,9 @@ passport.use(new LocalStrategy(
     User.findOne({ username: username }, function(err, user) {
       if (err) { return done(err); }
       if (!user) {
-		console.log("get fucked");
         return done(null, false, { message: 'Incorrect username.' });
       }
       if (!user.validPassword(password)) {
-		console.log("get not so fucked");
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
@@ -97,13 +95,11 @@ var postCounter =0;
 fs.readFile("public/upload/imagecounter.txt","utf8",function(err,data){
 	if(err) throw err;
 	imageCounter = parseInt(data);
-	console.log(imageCounter);
 });
 fs.readFile("public/upload/postcounter.txt","utf8",function(err,data){
 	if(err) throw err;
 	
 	postCounter = parseInt(data);
-	console.log(postCounter);
 	
 });
 
@@ -161,7 +157,6 @@ app.post("/",function(req,res){
 			if(req.files.pic){
 				var file = req.files.pic;
 				var filename = file.name;
-				console.log();
 				var extension = path.extname(filename);
 				if(extension == ".jpeg"||extension ==".jpg" || extension ==".JPG" || extension ==".gif" || extension == ".png" || extension ==".PNG"){
 				var newFilename = imageCounter + extension;
@@ -217,7 +212,6 @@ app.post("/",function(req,res){
 			}else{
 				res.send("bring pic pls");
 			}
-			console.log(req.body.breadTitle);
 		}
 	});
 	
