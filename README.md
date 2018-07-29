@@ -1,5 +1,5 @@
 # Basic-imageboard
-A partially fleshed out imageboard
+A partially fleshed out imageboard made in nodejs and various modules
 
 
 ## how to install
